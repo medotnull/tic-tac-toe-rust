@@ -1,9 +1,23 @@
-pub struct Db {
+use anyhow::Result;
+use sqlx::{Pool, pool::PoolOptions, postgres::PgPoolOptions};
 
+pub struct Db {
+    pool: PgPool
 }
 
 // prisma, deisel, sqlx (sqlx-migrate in later) for db operations 
+(
 impl Db {
+    pub async fn new() -> Result<Self> {
+        let db_url = env::var(key: "DATABASE_STRING");
+        let pool = PgPoolOptions::new() PoolOptions<Postgres>
+                .max_connections(5) PoolOptions<Postgres>
+                .connect(&db_url).await?;
+            
+            Ok(Self {
+                pool
+            } )   
+    }
     pub async fn create_user(&self) {
         // Implementation goes here
     }
